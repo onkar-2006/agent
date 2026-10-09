@@ -1,49 +1,382 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Mobile Dark Surface Palette */
+  --mobile-bg: #030712;
+  --mobile-surface: #0B1120;
+  --mobile-surface-elevated: #111827;
+  --mobile-surface-glass: rgba(17, 24, 39, 0.85);
+  --mobile-chrome: rgba(11, 17, 32, 0.92);
+  --mobile-chrome-solid: #0B1120;
+
+  --mobile-border: rgba(255, 255, 255, 0.08);
+  --mobile-border-active: rgba(16, 185, 129, 0.4);
+
+  /* Primary Brand: Sovereign Emerald */
+  --emerald-400: #34D399;
+  --emerald-500: #10B981;
+  --emerald-600: #059669;
+  --emerald-glow: rgba(16, 185, 129, 0.35);
+  --emerald-text: #ECFDF5;
+
+  /* Secondary: Cyber Cyan */
+  --cyan-400: #38BDF8;
+  --cyan-500: #06B6D4;
+  --cyan-600: #0284C7;
+  --cyan-glow: rgba(6, 182, 212, 0.35);
+
+  /* Guardrail Alert: Shield Coral */
+  --coral-400: #FB7185;
+  --coral-500: #F43F5E;
+  --coral-glow: rgba(244, 63, 94, 0.35);
+  --coral-text: #FECDD3;
+
+  /* Text Colors */
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+
+  /* Interactive Surfaces */
+  --chip-bg: rgba(255, 255, 255, 0.05);
+  --chip-bg-hover: rgba(255, 255, 255, 0.1);
+  --toggle-bg: rgba(255, 255, 255, 0.12);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Light Mode Overrides (scoped to the phone screen) */
+.theme-light {
+  --mobile-bg: #F1F5F9;
+  --mobile-surface: #FFFFFF;
+  --mobile-surface-elevated: #FFFFFF;
+  --mobile-surface-glass: rgba(255, 255, 255, 0.92);
+  --mobile-chrome: rgba(255, 255, 255, 0.94);
+  --mobile-chrome-solid: #FFFFFF;
 
-html {
-  height: 100%;
-}
+  --mobile-border: rgba(15, 23, 42, 0.1);
+  --mobile-border-active: rgba(16, 185, 129, 0.6);
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  --emerald-400: #059669;
+  --emerald-text: #065F46;
+  --cyan-400: #0369A1;
+  --coral-400: #E11D48;
+  --coral-text: #9F1239;
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+
+  --chip-bg: rgba(15, 23, 42, 0.05);
+  --chip-bg-hover: rgba(15, 23, 42, 0.1);
+  --toggle-bg: rgba(15, 23, 42, 0.16);
+  --scrollbar-thumb: rgba(15, 23, 42, 0.2);
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+html, body {
+  background-color: #030509;
+  color: var(--text-primary);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, sans-serif;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* Ambient cyber backdrop behind the device frame */
+.bg-grid-cyber {
+  background-color: #030509;
+  background-image:
+    radial-gradient(ellipse 60% 45% at 50% 0%, rgba(16, 185, 129, 0.08), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 85% 95%, rgba(6, 182, 212, 0.06), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+}
+
+/* Custom Mobile Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--emerald-500);
+}
+
+/* Typography styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism for Mobile */
+.mobile-glass {
+  background: var(--mobile-surface-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--mobile-border);
+}
+
+.mobile-card {
+  background: var(--mobile-surface);
+  border: 1px solid var(--mobile-border);
+  border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-card:active {
+  transform: scale(0.98);
+}
+
+/* Rounded icon buttons (header actions, input bar) */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--chip-bg);
+  border: 1px solid var(--mobile-border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.12s ease;
+}
+.icon-btn:hover {
+  background: var(--chip-bg-hover);
+  color: var(--text-primary);
+}
+.icon-btn:active {
+  transform: scale(0.92);
+}
+
+/* Suggested prompt chips */
+.prompt-chip {
+  white-space: nowrap;
+  background-color: var(--chip-bg);
+  border: 1px solid var(--mobile-border);
+  border-radius: 9999px;
+  padding: 5px 10px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+}
+.prompt-chip:hover {
+  background-color: var(--chip-bg-hover);
+  border-color: var(--mobile-border-active);
+}
+.prompt-chip:active {
+  transform: scale(0.95);
+}
+.prompt-chip.danger {
+  background-color: rgba(244, 63, 94, 0.08);
+  border-color: rgba(244, 63, 94, 0.25);
+  color: var(--coral-text);
+}
+.prompt-chip.danger:hover {
+  background-color: rgba(244, 63, 94, 0.16);
+  border-color: rgba(244, 63, 94, 0.45);
+}
+
+/* Switch styling */
+.toggle-switch {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  border-radius: 9999px;
+  background-color: var(--toggle-bg);
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  flex-shrink: 0;
+}
+.toggle-switch.active {
+  background-color: var(--emerald-500);
+}
+.toggle-switch-handle {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toggle-switch.active .toggle-switch-handle {
+  transform: translateX(20px);
+}
+
+/* Mobile Bottom Sheet Animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
   }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* History Drawer */
+@keyframes drawerIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 45;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.history-drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 82%;
+  max-width: 320px;
+  background: var(--mobile-chrome-solid);
+  border-right: 1px solid var(--mobile-border);
+  box-shadow: 12px 0 40px rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  animation: drawerIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.session-item {
+  text-align: left;
+  width: 100%;
+  background: var(--chip-bg);
+  border: 1px solid var(--mobile-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+.session-item:hover {
+  background: var(--chip-bg-hover);
+}
+.session-item.active {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: var(--mobile-border-active);
+}
+
+/* Chat message entrance */
+@keyframes msgIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-msg-in {
+  animation: msgIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Streaming caret */
+@keyframes caretBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.stream-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 0.95em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  border-radius: 2px;
+  background: var(--emerald-400);
+  animation: caretBlink 0.8s steps(1) infinite;
+}
+
+/* Typing indicator (three bouncing dots) */
+@keyframes typingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald-400);
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Pulse Animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
